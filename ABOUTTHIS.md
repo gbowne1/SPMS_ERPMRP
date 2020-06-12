@@ -1,24 +1,9 @@
-    General information (Application Version, Name(s), Contacts, etc.)
-    Database documentation (Setup Document from Vendor, Database Diagram, Data Classification, etc.)
-    Database setup requirements (Hardware, Software, Networking, etc.)
-    Database growth and future disk space requirements 
-      
-    Backup and Recovery requirements
-    Security settings
-    Remote access requirements
-    Connections strings and other database related application settings
-    Application operational information (For example: Automated processes run at night)
     
-
-Questions for the Database Requester
-
-Every software application is different and some of the questions may not be applicable to every single application. So, when DBAs send the questions to a database requestor we usually ask them to make the best effort in filling out the questionnaire. Then we review the form and if any important information is missing we ask them to complete specific sections of the request form.
 General Information
 
-    What is the name of the requested application and version?
+      What is the name of the requested application and version?
       We have not decided on the name of the application, other than SPMS ERP/MRP.  This app/database could potentially be of use to many different similar companies.
       
-    
     All we need to do is ask the user what application version the database belongs to.
     What is the latest application version available?
     
@@ -34,8 +19,7 @@ General Information
      MariaDB (??)
   
     Hardware requirements (SQL Server CPU, Memory, Storage, etc.)
-        Runs on a single Dell PowerEdge R710 SFF Server w/4.8TB storage (8x 600gb), 288gb Max RAM and is also connected to a single Dell PowerVault MD1220 storage array
-        chassis.
+        Runs on a single Dell PowerEdge R710 SFF Server w/4.8TB storage (8x 600gb), 288gb Max RAM and is also connected to a single Dell PowerVault MD1220 storage array chassis.
         
     How many concurrent users: We average 15 to 30 users logged in.
     What users/logins have to be created before application installation?
@@ -43,19 +27,21 @@ General Information
         Application service account - Domain user (application service startup account or application pool account for the web application)
         Application service account - SQL Server Login
         Application support user or vendor's login needs db_owner access to the database for the application installation (remove after the installation)
-   
-   
-   Contacts
+        
+Contacts
     Project Manager (if project initiated) and/or Technical Lead contact.
        Myself
+    
     Implementer(s) contact information (who will install an application/database) for each environment.
        Myself
+    
     Application support contact(s) for each environment. Specify if different for server support (usually technical person) and for the application support (business person).
-    Business owner of the application including department name (required for the Change Management approvals). Department name might be required for some of the databases statistics (for example, databases space used by department)
+   
+   Business owner of the application including department name (required for the Change Management approvals). Department name might be required for some of the databases statistics (for example, databases space used by department)
        Myself
     
     Provide multiple approvers if there are integrations involved.
-    
+       Myself
     
     When is the database required?
     No specific end date requested.
@@ -92,6 +78,7 @@ General Information
          
     Does the application require a service account and what database/SQL Server permissions will it need? 
     Yes, SYSADMIN server role is required for the day-to-day application functionality. Use minimal permissions principal.
+         DBADMIN role
     
     Are there any specific permissions that are required only for the application installation.
     These permissions are safe to remove/downgrade after the installation.
@@ -101,9 +88,9 @@ General Information
     
     How should the database be initially created?
     
-    The tables have already been created in Access and/or Excel.  However, It may need an empty database, application will create database objects and or retreive 
-        There is vendor’s script to create database objects
-        There are data files or a backup provided by the vendor to initialize (attach or restore) the database.
+    The tables have already been created in Access and/or Excel.  However, It may need an empty database, application will create database objects and or retreive:
+        Vendor’s script to create database objects
+        There are data files and/or a backup provided by the vendor to initialize (attach or restore) the database.
     
     What is the suggested database name? SPMS_ERPMRP_DB
     
@@ -136,13 +123,11 @@ General Information
         Users may re-import missing data from/using Excel, Access, etc.
         Users will run one or two simple batch processes using an application.  
         
-    Are there any requirements to keep databases in sync with integrated system(s)? Please provide details and steps to synchronize the data if both systems can not be recovered to the same point of time.
-    For example:
-        An application uses three databases and all of them have to be in-sync
-        When Application "A" database is restored Application "B" database have to be restored from the same day/time backup
+    Are there any requirements to keep databases in sync with integrated system(s)? Some of these conditions will exist.
+    
         Users create SSRS reports using an application. Both - SSRS reports have to be in-sync with the database as reports information is saved in the application's database.
-        Application "C" depends on files located on the network share; have to be in-sync
-        A database "D" has database link to an external database; data in both has to be in-sync. Data will be re-imported base on a timestamp from the external database in case of database "D" restore.
+        Application depends on files located on the network share; have to be in-sync
+        A database has database link to an external database; data in both has to be in-sync. Data will be re-imported base on a timestamp from the external database in case of database restore.
     
     Operational Information
     Does the application have any resource intensive tasks/operations that will run during the day or afterhours?  Somewhat yes. 
@@ -156,13 +141,13 @@ General Information
         ODBC connection on application server or desktop client
         Database setting are in *.ini file (provide the location of the file).
     
-    Dependencies
+    Dependencies:
         To be determined.
         
     Provide application server(s) names
         Not named yet.  Normal convention follows.
     
-    Provide any dependencies on SQL Server features or services.
+    Provide any dependencies on SQL Server features or services:
   
         SQL Server Reporting Services
         Partitioning
@@ -182,12 +167,14 @@ Note: The following information may not be available during initial requirements
  
  Database Administrators' accesses.
     
-        Using Windows Authentication (preferred) and SQL Server Management Studio
-        By using VPN connection to the external server
+        Using Windows Authentication (preferred) and SQL Server Management Studio (primary access)
+        By using VPN connection to the external server (non-primary, 2nd level access)
         Using SQL Server Authentication (only when Domain Authentication is not available).
         
     Additional database user setup requirements:
         Read only (back end) database access for the application support person in the Test environment
+        
+    Backups run at night and several times during the day.  Minimum once every 3 to 5 Hours.
         
     Audit setup (if applicable).
     For example:
